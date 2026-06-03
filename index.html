@@ -42,13 +42,11 @@
       overflow: hidden;
     }
 
-    /* ── Synapse Canvas ── */
     #synapse-canvas {
       position: fixed; inset: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: 0; opacity: 0.5;
     }
 
-    /* ── Aurora Overlay ── */
     #aurora-overlay {
       position: fixed; inset: 0; pointer-events: none; z-index: 1;
       background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(30,58,110,0.45) 0%, transparent 70%);
@@ -61,7 +59,6 @@
       border: 1px solid var(--glass-border);
     }
 
-    /* ── Header ── */
     .header {
       position: relative; z-index: 10; padding: 14px 18px;
       display: flex; justify-content: space-between; align-items: center;
@@ -70,7 +67,6 @@
 
     .title { display: flex; align-items: center; }
     .title-logo { height: 34px; width: auto; display: block; }
-
     .title-logo-fallback {
       display: none; align-items: center; gap: 6px;
       font-size: 15px; font-weight: 700; color: var(--gold-400); letter-spacing: 0.08em;
@@ -131,7 +127,6 @@
         inset 0 1px 3px rgba(255,255,200,0.8), inset 0 -1px 2px rgba(100,50,0,0.5);
     }
 
-    /* ── Chat Area ── */
     #chat-area {
       position: relative; z-index: 10; flex: 1;
       overflow-y: auto; padding: 16px;
@@ -165,7 +160,6 @@
       backdrop-filter: blur(8px); border: 1px solid rgba(240,192,64,0.08); letter-spacing: 0.04em;
     }
 
-    /* ── Footer ── */
     .footer {
       position: relative; z-index: 10; padding: 12px 14px;
       padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
@@ -215,6 +209,7 @@
       background: rgba(239,68,68,0.85); color: white; border-color: transparent;
       animation: pulse-red 1.5s infinite; box-shadow: 0 0 16px rgba(239,68,68,0.6);
     }
+    #mic-btn.disabled-mic { opacity: 0.35; cursor: not-allowed; }
     @keyframes pulse-red {
       0%   { box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
       70%  { box-shadow: 0 0 0 14px rgba(239,68,68,0); }
@@ -233,7 +228,6 @@
       40%            { transform: scale(1); opacity: 1; }
     }
 
-    /* ── Save Button ── */
     @property --ba { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
     @keyframes save-border-spin { to { --ba: 360deg; } }
 
@@ -260,7 +254,6 @@
 
     .save-row { display: flex; align-items: center; gap: 10px; }
 
-    /* ── Settings Button ── */
     #settings-btn {
       background: none; border: none; cursor: pointer; color: var(--text-secondary);
       display: flex; align-items: center; padding: 6px; border-radius: 8px;
@@ -268,6 +261,17 @@
     }
     #settings-btn:hover { color: var(--gold-400); background: rgba(240,192,64,0.08); }
     #settings-btn .material-icons { font-size: 20px; }
+    #tts-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; padding: 6px; border-radius: 8px; transition: color 0.2s, background 0.2s; margin-right: 2px; }
+    #tts-btn:hover { color: var(--gold-400); background: rgba(240,192,64,0.08); }
+    #tts-btn.active { color: var(--gold-400); }
+    #tts-btn .material-icons { font-size: 20px; }
+    .tts-section-title { font-size: 11px; font-weight: 700; color: var(--gold-400); letter-spacing: 0.08em; text-transform: uppercase; margin: 16px 0 10px; border-top: 1px solid rgba(240,192,64,0.15); padding-top: 14px; }
+    .settings-select { width: 100%; padding: 10px 13px; font-size: 14px; margin-bottom: 6px; box-sizing: border-box; background: rgba(13,21,38,0.8); border: 1px solid rgba(240,192,64,0.2); border-radius: 8px; color: var(--text-primary); outline: none; }
+    .settings-select:focus { border-color: var(--gold-400); }
+    .settings-select option { background: #0d1526; }
+    .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .slider-row input[type=range] { flex: 1; accent-color: var(--gold-400); }
+    .slider-val { font-size: 12px; color: var(--gold-400); font-weight: 700; min-width: 36px; text-align: right; }
 
     /* ── Settings Modal ── */
     #settings-overlay {
@@ -280,7 +284,8 @@
     #settings-modal {
       background: var(--navy-800); border: 1px solid var(--glass-border);
       border-radius: 16px; padding: 28px 24px 24px;
-      width: 340px; max-width: 90vw; box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+      width: 340px; max-width: 90vw; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.7);
     }
     #settings-modal h3 {
       margin: 0 0 20px; font-size: 15px; color: var(--gold-400);
@@ -312,6 +317,81 @@
     .settings-btn-save:hover { background: var(--gold-500); }
     .settings-btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
 
+    /* ── URL Display in Settings ── */
+    .settings-url-section {
+      margin-bottom: 18px; padding: 14px; border-radius: 10px;
+      background: rgba(240,192,64,0.06); border: 1px solid rgba(240,192,64,0.2);
+    }
+    .settings-url-label {
+      font-size: 11px; font-weight: 600; color: var(--text-gold);
+      letter-spacing: 0.06em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px;
+    }
+    .settings-url-row { display: flex; align-items: center; gap: 8px; }
+    .settings-url-display {
+      flex: 1; font-size: 11px; color: var(--text-secondary);
+      background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px; padding: 7px 10px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-family: monospace;
+    }
+    .settings-url-copy-btn {
+      flex-shrink: 0; padding: 7px 10px; border-radius: 6px;
+      background: rgba(240,192,64,0.15); border: 1px solid rgba(240,192,64,0.3);
+      color: var(--gold-400); font-size: 12px; cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .settings-url-copy-btn:hover { background: rgba(240,192,64,0.25); }
+    .settings-url-change {
+      font-size: 11px; color: var(--text-secondary); margin-top: 8px;
+      cursor: pointer; text-decoration: underline; text-underline-offset: 2px;
+    }
+    .settings-url-change:hover { color: var(--text-primary); }
+    .settings-url-edit { display: none; margin-top: 8px; }
+    .settings-url-edit.open { display: block; }
+
+    /* ── Initial Setup Modal ── */
+    #setup-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(2,8,23,0.92); justify-content: center; align-items: center;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    #setup-overlay.open { display: flex; }
+    #setup-modal {
+      background: var(--navy-800); border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 32px 28px 28px;
+      width: 360px; max-width: 92vw; box-shadow: 0 32px 80px rgba(0,0,0,0.8);
+    }
+    #setup-modal .setup-icon { font-size: 36px; text-align: center; margin-bottom: 12px; }
+    #setup-modal h3 {
+      margin: 0 0 8px; font-size: 16px; color: var(--gold-400);
+      text-align: center; font-weight: 700;
+    }
+    #setup-modal p {
+      font-size: 13px; color: var(--text-secondary); text-align: center;
+      margin-bottom: 20px; line-height: 1.6;
+    }
+    #setup-modal .setup-step {
+      font-size: 11px; color: var(--text-secondary); margin-bottom: 6px;
+      font-weight: 600; letter-spacing: 0.04em;
+    }
+    #setup-gas-url {
+      width: 100%; padding: 11px 13px; font-size: 13px;
+      background: rgba(13,21,38,0.8); border: 1px solid rgba(240,192,64,0.3);
+      border-radius: 8px; color: var(--text-primary); outline: none;
+      box-sizing: border-box; margin-bottom: 6px; font-family: monospace;
+      transition: border-color 0.2s;
+    }
+    #setup-gas-url:focus { border-color: var(--gold-400); }
+    #setup-gas-url::placeholder { color: rgba(136,153,187,0.5); font-family: sans-serif; }
+    .setup-hint { font-size: 11px; color: var(--text-secondary); margin-bottom: 20px; }
+    #setup-save-btn {
+      width: 100%; padding: 13px; border: none; border-radius: 10px;
+      background: var(--gold-400); color: var(--navy-950);
+      font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    #setup-save-btn:hover { background: var(--gold-500); }
+    #setup-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
     /* ── BGM Control ── */
     #bgm-control {
       display: flex; align-items: center; gap: 7px; padding: 8px 11px;
@@ -333,7 +413,6 @@
     #bgm-slider { display: none; width: 66px; accent-color: var(--gold-400); }
     #bgm-slider.open { display: block; }
 
-    /* ── Synthesis Trigger ── */
     #synth-trigger {
       background: rgba(13,21,38,0.8); border: 1px solid rgba(240,192,64,0.2);
       border-radius: 9999px; color: var(--gold-400);
@@ -346,7 +425,6 @@
     #synth-trigger:hover { border-color: rgba(240,192,64,0.5); box-shadow: 0 0 12px var(--gold-glow); }
     #synth-trigger:active { transform: scale(0.96); }
 
-    /* ── Synthesis Bottom Sheet ── */
     #synth-overlay { position: fixed; inset: 0; z-index: 40; display: none; }
     #synth-overlay.open { display: block; }
 
@@ -381,7 +459,6 @@
     .synth-btn .synth-icon { font-size: 20px; }
     .synth-btn .synth-label { font-size: 10px; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.04em; }
 
-    /* ── Synthesis Modal ── */
     #synth-modal {
       position: fixed; inset: 0; z-index: 100;
       background: rgba(2,8,23,0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
@@ -412,16 +489,75 @@
 </head>
 <body>
 
+  <!-- 初回セットアップモーダル -->
+  <div id="setup-overlay">
+    <div id="setup-modal">
+      <div class="setup-icon">🔗</div>
+      <h3>Genesis Pipe へようこそ</h3>
+      <p>はじめに、あなたの<br>GASウェブアプリURLを設定してください</p>
+      <div class="setup-step">GASウェブアプリURL（/exec で終わるURL）</div>
+      <input type="url" id="setup-gas-url" placeholder="https://script.google.com/macros/s/.../exec">
+      <div class="setup-hint">スプレッドシートのサイドバー → パートナー設定 からコピーできます</div>
+      <button id="setup-save-btn" onclick="saveInitialSetup()">接続する</button>
+    </div>
+  </div>
+
   <!-- パートナー設定モーダル -->
   <div id="settings-overlay" onclick="handleOverlayClick(event)">
     <div id="settings-modal">
       <h3><span class="material-icons" style="font-size:18px;">settings</span> パートナー設定</h3>
+
+      <div class="settings-url-section">
+        <div class="settings-url-label">
+          <span class="material-icons" style="font-size:14px;">link</span>
+          接続中のGASウェブアプリURL
+        </div>
+        <div class="settings-url-row">
+          <div class="settings-url-display" id="settings-url-display">未設定</div>
+          <button class="settings-url-copy-btn" onclick="copyGasUrl()">
+            <span class="material-icons" style="font-size:14px;">content_copy</span>
+          </button>
+        </div>
+        <div class="settings-url-change" onclick="toggleUrlEdit()">URLを変更する</div>
+        <div class="settings-url-edit" id="settings-url-edit">
+          <input type="url" id="settings-gas-url-input" class="settings-input"
+                 placeholder="https://script.google.com/macros/s/.../exec">
+        </div>
+      </div>
+
       <label class="settings-label">あなたの名前（AIに呼んでもらいたい名前）</label>
       <input type="text" id="settings-user-name" class="settings-input" placeholder="例: 瑠光子">
       <div class="settings-hint">AIがこの名前であなたに語りかけます</div>
       <label class="settings-label">AIパートナーの名前</label>
       <input type="text" id="settings-ai-name" class="settings-input" placeholder="例: けんちゃん">
       <div class="settings-hint">あなたの専属AI伴走者の名前です</div>
+
+      <!-- TTS設定 -->
+      <div class="tts-section-title">🔊 音声読み上げ（CLOUD TTS）</div>
+      <label class="settings-label">声の種類</label>
+      <select id="settings-tts-voice" class="settings-select">
+        <option value="ja-JP-Neural2-C">男性A — Neural2-C（低音・落ち着き）</option>
+        <option value="ja-JP-Neural2-D">男性B — Neural2-D（若め・明るめ）</option>
+        <option value="ja-JP-Neural2-B">女性A — Neural2-B（自然・明るい）</option>
+        <option value="ja-JP-Wavenet-C">男性C — Wavenet-C（軽量・標準）</option>
+        <option value="ja-JP-Wavenet-B">女性B — Wavenet-B（軽量・標準）</option>
+      </select>
+      <div class="settings-hint">Neural2 が最も自然。Wavenet は応答が少し速い。</div>
+      <label class="settings-label">話す速度</label>
+      <div class="slider-row">
+        <input type="range" id="settings-tts-rate" min="0.7" max="1.3" step="0.05" value="0.93"
+          oninput="document.getElementById('rate-val').textContent=parseFloat(this.value).toFixed(2)">
+        <span class="slider-val" id="rate-val">0.93</span>
+      </div>
+      <div class="settings-hint">0.7（ゆっくり）→ 1.0（標準）→ 1.3（速め）</div>
+      <label class="settings-label">ピッチ（音の高さ）</label>
+      <div class="slider-row">
+        <input type="range" id="settings-tts-pitch" min="-5" max="5" step="0.5" value="0"
+          oninput="document.getElementById('pitch-val').textContent=parseFloat(this.value).toFixed(1)">
+        <span class="slider-val" id="pitch-val">0.0</span>
+      </div>
+      <div class="settings-hint">−5（低め）→ 0（標準）→ +5（高め）</div>
+
       <div class="settings-btn-group">
         <button class="settings-btn-cancel" onclick="closeSettings()">キャンセル</button>
         <button class="settings-btn-save" id="settings-save-btn" onclick="saveSettings()">保存する</button>
@@ -440,6 +576,9 @@
       <div id="logo-fallback" class="title-logo-fallback">🚀 <span>GENESIS PIPE</span></div>
     </div>
     <div id="toggle-wrap">
+      <button id="tts-btn" onclick="toggleTts()" title="音声読み上げ ON/OFF">
+        <span class="material-icons" id="tts-icon">volume_off</span>
+      </button>
       <button id="settings-btn" onclick="openSettings()" title="パートナー設定">
         <span class="material-icons">settings</span>
       </button>
@@ -463,7 +602,6 @@
   <!-- BGM -->
   <audio id="bgm-audio" src="./AI_PARTNER_SYNC_BGM.m4a" loop preload="metadata"></audio>
 
-  <!-- Synthesis overlay (tap to close) -->
   <div id="synth-overlay" onclick="closeSynthPanel()"></div>
 
   <!-- Synthesis bottom-sheet -->
@@ -472,20 +610,16 @@
       <div id="synth-panel-title">⚗️ 叡智の蒸留 — Synthesis</div>
       <div class="synthesis-row">
         <button class="synth-btn" onclick="openSynthesisModal('Daily')">
-          <span class="synth-icon">📅</span>
-          <span class="synth-label">Daily</span>
+          <span class="synth-icon">📅</span><span class="synth-label">Daily</span>
         </button>
         <button class="synth-btn" onclick="openSynthesisModal('Weekly')">
-          <span class="synth-icon">📆</span>
-          <span class="synth-label">Weekly</span>
+          <span class="synth-icon">📆</span><span class="synth-label">Weekly</span>
         </button>
         <button class="synth-btn" onclick="openSynthesisModal('Monthly')">
-          <span class="synth-icon">🗓</span>
-          <span class="synth-label">Monthly</span>
+          <span class="synth-icon">🗓</span><span class="synth-label">Monthly</span>
         </button>
         <button class="synth-btn" onclick="openSynthesisModal('Yearly')">
-          <span class="synth-icon">✨</span>
-          <span class="synth-label">Yearly</span>
+          <span class="synth-icon">✨</span><span class="synth-label">Yearly</span>
         </button>
       </div>
     </div>
@@ -534,35 +668,35 @@
   </div>
 
   <script>
-    /* ── 設定 ── */
-    // ★★★ RumikoのGASデプロイURL（/exec終わり）に書き換えてください ★★★
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz6cOj0T9Xk7FD4CpEtky5WmSHjLQpyM6qNj-8-5XKQ3J2skXJcE144TllxSykbCW-eAg/exec";
-
-    // Firestoreと連携する場合のみ VercelのURLを設定。不要なら null のまま
     const NEXT_API_BASE_URL = null;
+    const GP_STORAGE_KEY = 'gp_public_v1';
+
+    function loadFromStorage() {
+      try { return JSON.parse(localStorage.getItem(GP_STORAGE_KEY) || '{}'); } catch(e) { return {}; }
+    }
+    function saveToStorage(data) {
+      try { localStorage.setItem(GP_STORAGE_KEY, JSON.stringify({ ...loadFromStorage(), ...data })); } catch(e) {}
+    }
+
+    const _saved = loadFromStorage();
+    let webAppUrl   = _saved.webAppUrl   || '';
+    let userName    = _saved.userName    || 'あなた';
+    let aiName      = _saved.aiName      || 'AI';
+    let ttsVoice    = _saved.ttsVoice    || 'ja-JP-Neural2-C';
+    let ttsRate     = (_saved.ttsRate    != null) ? _saved.ttsRate  : 0.93;
+    let ttsPitch    = (_saved.ttsPitch   != null) ? _saved.ttsPitch : 0.0;
+    let ttsEnabled  = false;
+    let currentAudio = null;
+    // 個人情報（生年月日・性別・APIキー）はGASのUserProperties（サイドバー）でのみ管理。
+    // ブラウザには保存しない。GASがUserPropertiesから気質を読んでOracleに注入する。
 
     /* ── iOS --vh フォールバック ── */
     (function() {
-      function setVH() {
-        document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
-      }
+      function setVH() { document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px'); }
       setVH();
       window.addEventListener('resize', setVH);
       window.addEventListener('orientationchange', function() { setTimeout(setVH, 100); });
     })();
-
-    /* ── ユーザー設定の初期化 ── */
-    let userName = 'KURI';
-    let aiName   = 'YODA';
-
-    if (typeof google !== 'undefined' && google.script) {
-      google.script.run
-        .withSuccessHandler(function(s) {
-          if (s && s.userName) userName = s.userName;
-          if (s && s.aiName)   aiName   = s.aiName;
-        })
-        .getUserSettings();
-    }
 
     /* ══════════════════════════════════════════
        SYNAPSE BACKGROUND
@@ -570,156 +704,26 @@
     (function initSynapse() {
       const canvas = document.getElementById('synapse-canvas');
       const ctx    = canvas.getContext('2d');
-
       const NODE_COUNT=72, MAX_DIST=200, ATTRACT_DIST=90, REPEL_DIST=55;
       const ATTRACT_FORCE=0.0006, REPEL_FORCE=0.035, MAX_SPEED=0.7;
       const CURRENT_SPD_MIN=0.0020, CURRENT_SPD_MAX=0.0050;
       const TAIL_MIN=0.10, TAIL_MAX=0.25, MAX_CURRENTS=35, SPAWN_CHANCE=0.022;
       const MAX_CHAIN_DEPTH=14, CHAIN_DIM=0.92;
-
-      let nodes=[], currents=[], animId;
-
+      let nodes=[], currents=[];
       function resize() { canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
-
       function initNodes() {
         const w=canvas.width, h=canvas.height;
-        const cols=Math.ceil(Math.sqrt(NODE_COUNT*(w/h)));
-        const rows=Math.ceil(NODE_COUNT/cols);
+        const cols=Math.ceil(Math.sqrt(NODE_COUNT*(w/h))), rows=Math.ceil(NODE_COUNT/cols);
         const cellW=w/cols, cellH=h/rows, margin=0.15, pos=[];
-        for(let r=0;r<rows&&pos.length<NODE_COUNT;r++)
-          for(let c=0;c<cols&&pos.length<NODE_COUNT;c++)
-            pos.push({x:cellW*(c+margin+Math.random()*(1-margin*2)),y:cellH*(r+margin+Math.random()*(1-margin*2))});
+        for(let r=0;r<rows&&pos.length<NODE_COUNT;r++) for(let c=0;c<cols&&pos.length<NODE_COUNT;c++) pos.push({x:cellW*(c+margin+Math.random()*(1-margin*2)),y:cellH*(r+margin+Math.random()*(1-margin*2))});
         for(let i=pos.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pos[i],pos[j]]=[pos[j],pos[i]];}
-        nodes=pos.slice(0,NODE_COUNT).map(({x,y})=>{
-          const a=Math.random()*Math.PI*2,s=0.1+Math.random()*0.2;
-          return{x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,radius:0.6+Math.random()*0.8,
-            pulse:Math.random()*Math.PI*2,pulseSpeed:0.014+Math.random()*0.014,
-            flash:0,flashDecay:0.018+Math.random()*0.010,lastSentTo:-1};
-        });
+        nodes=pos.slice(0,NODE_COUNT).map(({x,y})=>{const a=Math.random()*Math.PI*2,s=0.1+Math.random()*0.2;return{x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,radius:0.6+Math.random()*0.8,pulse:Math.random()*Math.PI*2,pulseSpeed:0.014+Math.random()*0.014,flash:0,flashDecay:0.018+Math.random()*0.010,lastSentTo:-1};});
         currents=[];
       }
-
-      function getEdges(){
-        const edges=[];
-        for(let i=0;i<nodes.length;i++)
-          for(let j=i+1;j<nodes.length;j++){
-            const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
-            if(Math.sqrt(dx*dx+dy*dy)<MAX_DIST)edges.push([i,j]);
-          }
-        return edges;
-      }
-
-      function spawnCurrent(edges){
-        if(!edges.length)return;
-        const[a,b]=edges[Math.floor(Math.random()*edges.length)];
-        const[from,to]=Math.random()<0.5?[a,b]:[b,a];
-        currents.push({fromIdx:from,toIdx:to,progress:0,
-          speed:CURRENT_SPD_MIN+Math.random()*(CURRENT_SPD_MAX-CURRENT_SPD_MIN),
-          brightness:0.75+Math.random()*0.25,
-          tailLength:TAIL_MIN+Math.random()*(TAIL_MAX-TAIL_MIN),
-          chainDepth:0,prevIdx:from});
-      }
-
-      function continueChain(arrivedAt,cameFrom,speed,brightness,tailLength,chainDepth){
-        nodes[arrivedAt].flash=Math.min(1.0,brightness*1.15);
-        if(chainDepth>=MAX_CHAIN_DEPTH)return;
-        const candidates=[];
-        for(let j=0;j<nodes.length;j++){
-          if(j===arrivedAt||j===cameFrom)continue;
-          const dx=nodes[arrivedAt].x-nodes[j].x,dy=nodes[arrivedAt].y-nodes[j].y;
-          if(Math.sqrt(dx*dx+dy*dy)<MAX_DIST)candidates.push(j);
-        }
-        const nextTo=candidates.length?candidates[Math.floor(Math.random()*candidates.length)]:cameFrom;
-        nodes[arrivedAt].lastSentTo=nextTo;
-        currents.push({fromIdx:arrivedAt,toIdx:nextTo,progress:0,speed,
-          brightness:brightness*CHAIN_DIM,tailLength,chainDepth:chainDepth+1,prevIdx:arrivedAt});
-      }
-
-      function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        for(let i=0;i<nodes.length;i++)
-          for(let j=i+1;j<nodes.length;j++){
-            const a=nodes[i],b=nodes[j],dx=b.x-a.x,dy=b.y-a.y;
-            const dist=Math.sqrt(dx*dx+dy*dy)||0.001,nx=dx/dist,ny=dy/dist;
-            if(dist<REPEL_DIST){const f=REPEL_FORCE*(1-dist/REPEL_DIST);a.vx-=nx*f;a.vy-=ny*f;b.vx+=nx*f;b.vy+=ny*f;}
-            else if(dist<ATTRACT_DIST){const f=ATTRACT_FORCE*(1-dist/ATTRACT_DIST);a.vx+=nx*f;a.vy+=ny*f;b.vx-=nx*f;b.vy-=ny*f;}
-          }
-        for(const n of nodes){
-          const spd=Math.sqrt(n.vx*n.vx+n.vy*n.vy);
-          if(spd>MAX_SPEED){n.vx=(n.vx/spd)*MAX_SPEED;n.vy=(n.vy/spd)*MAX_SPEED;}
-          if(spd<0.03){n.vx+=(Math.random()-0.5)*0.03;n.vy+=(Math.random()-0.5)*0.03;}
-          n.x+=n.vx;n.y+=n.vy;n.pulse+=n.pulseSpeed;n.flash=Math.max(0,n.flash-n.flashDecay);
-          if(n.x<0||n.x>canvas.width)n.vx*=-1;
-          if(n.y<0||n.y>canvas.height)n.vy*=-1;
-        }
-        const edges=getEdges();
-        if(currents.length<MAX_CURRENTS&&Math.random()<SPAWN_CHANCE)spawnCurrent(edges);
-        for(const[i,j]of edges){
-          const a=nodes[i],b=nodes[j],dx=a.x-b.x,dy=a.y-b.y;
-          const dist=Math.sqrt(dx*dx+dy*dy),t=1-dist/MAX_DIST;
-          const isBridge=(a.flash>0.05&&a.lastSentTo===j)||(b.flash>0.05&&b.lastSentTo===i);
-          if(isBridge){
-            const bGrad=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
-            bGrad.addColorStop(0,`rgba(240,192,64,${a.flash*0.6})`);
-            bGrad.addColorStop(1,`rgba(240,192,64,${b.flash*0.6})`);
-            ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
-            ctx.strokeStyle=bGrad;ctx.lineWidth=1.0+Math.max(a.flash,b.flash)*0.55*1.5;ctx.stroke();
-          }else{
-            const alpha=Math.pow(t,2.2)*0.13+Math.max(a.flash,b.flash)*0.12;
-            ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
-            ctx.strokeStyle=`rgba(210,225,255,${Math.min(alpha,0.45)})`;ctx.lineWidth=0.5;ctx.stroke();
-          }
-        }
-        currents=currents.filter((cur)=>{
-          cur.progress+=cur.speed;
-          if(cur.progress>=1.0){continueChain(cur.toIdx,cur.fromIdx,cur.speed,cur.brightness,cur.tailLength,cur.chainDepth);return false;}
-          const from=nodes[cur.fromIdx],to=nodes[cur.toIdx];
-          const hx=from.x+(to.x-from.x)*cur.progress,hy=from.y+(to.y-from.y)*cur.progress;
-          const ts=Math.max(0,cur.progress-cur.tailLength);
-          const tx=from.x+(to.x-from.x)*ts,ty2=from.y+(to.y-from.y)*ts;
-          const lineGrad=ctx.createLinearGradient(tx,ty2,hx,hy);
-          lineGrad.addColorStop(0,`rgba(240,192,64,0)`);
-          lineGrad.addColorStop(0.5,`rgba(240,192,64,${cur.brightness*0.35})`);
-          lineGrad.addColorStop(1,`rgba(255,245,180,${cur.brightness})`);
-          ctx.beginPath();ctx.moveTo(tx,ty2);ctx.lineTo(hx,hy);
-          ctx.strokeStyle=lineGrad;ctx.lineWidth=1.6;ctx.stroke();
-          const gR=5+cur.brightness*2;
-          const gGrad=ctx.createRadialGradient(hx,hy,0,hx,hy,gR);
-          gGrad.addColorStop(0,`rgba(255,255,220,${cur.brightness})`);
-          gGrad.addColorStop(0.3,`rgba(255,210,80,${cur.brightness*0.9})`);
-          gGrad.addColorStop(1,`rgba(240,192,64,0)`);
-          ctx.beginPath();ctx.arc(hx,hy,gR,0,Math.PI*2);ctx.fillStyle=gGrad;ctx.fill();
-          return true;
-        });
-        for(const n of nodes){
-          const glow=(Math.sin(n.pulse)+1)/2,flash=n.flash,r=n.radius+glow*0.6+flash*4;
-          if(flash>0.01){
-            const isStage1=flash>0.65,coreG=isStage1?248:200,coreB=isStage1?180:80;
-            const bR=r*(isStage1?7:5.5),burst=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,bR);
-            burst.addColorStop(0,`rgba(255,${coreG},${coreB},${flash*0.95})`);
-            burst.addColorStop(0.25,`rgba(240,192,64,${flash*0.65})`);
-            burst.addColorStop(0.6,`rgba(240,150,0,${flash*0.2})`);
-            burst.addColorStop(1,`rgba(240,192,64,0)`);
-            ctx.beginPath();ctx.arc(n.x,n.y,bR,0,Math.PI*2);ctx.fillStyle=burst;ctx.fill();
-            if(isStage1){
-              const ringR=r*9*(1-flash+0.4);
-              ctx.beginPath();ctx.arc(n.x,n.y,ringR,0,Math.PI*2);
-              ctx.strokeStyle=`rgba(255,220,80,${flash*0.3})`;ctx.lineWidth=1.2;ctx.stroke();
-            }
-            ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);
-            ctx.fillStyle=`rgba(255,${coreG},${coreB},${0.8+flash*0.2})`;ctx.fill();
-          }else{
-            const oG=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*3);
-            oG.addColorStop(0,`rgba(220,230,255,${0.12+glow*0.08})`);
-            oG.addColorStop(1,`rgba(220,230,255,0)`);
-            ctx.beginPath();ctx.arc(n.x,n.y,r*3,0,Math.PI*2);ctx.fillStyle=oG;ctx.fill();
-            ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);
-            ctx.fillStyle=`rgba(220,230,255,${0.45+glow*0.2})`;ctx.fill();
-          }
-        }
-        animId=requestAnimationFrame(draw);
-      }
-
+      function getEdges(){const edges=[];for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;if(Math.sqrt(dx*dx+dy*dy)<MAX_DIST)edges.push([i,j]);}return edges;}
+      function spawnCurrent(edges){if(!edges.length)return;const[a,b]=edges[Math.floor(Math.random()*edges.length)];const[from,to]=Math.random()<0.5?[a,b]:[b,a];currents.push({fromIdx:from,toIdx:to,progress:0,speed:CURRENT_SPD_MIN+Math.random()*(CURRENT_SPD_MAX-CURRENT_SPD_MIN),brightness:0.75+Math.random()*0.25,tailLength:TAIL_MIN+Math.random()*(TAIL_MAX-TAIL_MIN),chainDepth:0,prevIdx:from});}
+      function continueChain(arrivedAt,cameFrom,speed,brightness,tailLength,chainDepth){nodes[arrivedAt].flash=Math.min(1.0,brightness*1.15);if(chainDepth>=MAX_CHAIN_DEPTH)return;const candidates=[];for(let j=0;j<nodes.length;j++){if(j===arrivedAt||j===cameFrom)continue;const dx=nodes[arrivedAt].x-nodes[j].x,dy=nodes[arrivedAt].y-nodes[j].y;if(Math.sqrt(dx*dx+dy*dy)<MAX_DIST)candidates.push(j);}const nextTo=candidates.length?candidates[Math.floor(Math.random()*candidates.length)]:cameFrom;nodes[arrivedAt].lastSentTo=nextTo;currents.push({fromIdx:arrivedAt,toIdx:nextTo,progress:0,speed,brightness:brightness*CHAIN_DIM,tailLength,chainDepth:chainDepth+1,prevIdx:arrivedAt});}
+      function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const a=nodes[i],b=nodes[j],dx=b.x-a.x,dy=b.y-a.y;const dist=Math.sqrt(dx*dx+dy*dy)||0.001,nx=dx/dist,ny=dy/dist;if(dist<REPEL_DIST){const f=REPEL_FORCE*(1-dist/REPEL_DIST);a.vx-=nx*f;a.vy-=ny*f;b.vx+=nx*f;b.vy+=ny*f;}else if(dist<ATTRACT_DIST){const f=ATTRACT_FORCE*(1-dist/ATTRACT_DIST);a.vx+=nx*f;a.vy+=ny*f;b.vx-=nx*f;b.vy-=ny*f;}}for(const n of nodes){const spd=Math.sqrt(n.vx*n.vx+n.vy*n.vy);if(spd>MAX_SPEED){n.vx=(n.vx/spd)*MAX_SPEED;n.vy=(n.vy/spd)*MAX_SPEED;}if(spd<0.03){n.vx+=(Math.random()-0.5)*0.03;n.vy+=(Math.random()-0.5)*0.03;}n.x+=n.vx;n.y+=n.vy;n.pulse+=n.pulseSpeed;n.flash=Math.max(0,n.flash-n.flashDecay);if(n.x<0||n.x>canvas.width)n.vx*=-1;if(n.y<0||n.y>canvas.height)n.vy*=-1;}const edges=getEdges();if(currents.length<MAX_CURRENTS&&Math.random()<SPAWN_CHANCE)spawnCurrent(edges);for(const[i,j]of edges){const a=nodes[i],b=nodes[j],dx=a.x-b.x,dy=a.y-b.y;const dist=Math.sqrt(dx*dx+dy*dy),t=1-dist/MAX_DIST;const isBridge=(a.flash>0.05&&a.lastSentTo===j)||(b.flash>0.05&&b.lastSentTo===i);if(isBridge){const bGrad=ctx.createLinearGradient(a.x,a.y,b.x,b.y);bGrad.addColorStop(0,`rgba(240,192,64,${a.flash*0.6})`);bGrad.addColorStop(1,`rgba(240,192,64,${b.flash*0.6})`);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=bGrad;ctx.lineWidth=1.0+Math.max(a.flash,b.flash)*0.55*1.5;ctx.stroke();}else{const alpha=Math.pow(t,2.2)*0.13+Math.max(a.flash,b.flash)*0.12;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(210,225,255,${Math.min(alpha,0.45)})`;ctx.lineWidth=0.5;ctx.stroke();}}currents=currents.filter((cur)=>{cur.progress+=cur.speed;if(cur.progress>=1.0){continueChain(cur.toIdx,cur.fromIdx,cur.speed,cur.brightness,cur.tailLength,cur.chainDepth);return false;}const from=nodes[cur.fromIdx],to=nodes[cur.toIdx];const hx=from.x+(to.x-from.x)*cur.progress,hy=from.y+(to.y-from.y)*cur.progress;const ts=Math.max(0,cur.progress-cur.tailLength);const tx=from.x+(to.x-from.x)*ts,ty2=from.y+(to.y-from.y)*ts;const lineGrad=ctx.createLinearGradient(tx,ty2,hx,hy);lineGrad.addColorStop(0,`rgba(240,192,64,0)`);lineGrad.addColorStop(0.5,`rgba(240,192,64,${cur.brightness*0.35})`);lineGrad.addColorStop(1,`rgba(255,245,180,${cur.brightness})`);ctx.beginPath();ctx.moveTo(tx,ty2);ctx.lineTo(hx,hy);ctx.strokeStyle=lineGrad;ctx.lineWidth=1.6;ctx.stroke();const gR=5+cur.brightness*2;const gGrad=ctx.createRadialGradient(hx,hy,0,hx,hy,gR);gGrad.addColorStop(0,`rgba(255,255,220,${cur.brightness})`);gGrad.addColorStop(0.3,`rgba(255,210,80,${cur.brightness*0.9})`);gGrad.addColorStop(1,`rgba(240,192,64,0)`);ctx.beginPath();ctx.arc(hx,hy,gR,0,Math.PI*2);ctx.fillStyle=gGrad;ctx.fill();return true;});for(const n of nodes){const glow=(Math.sin(n.pulse)+1)/2,flash=n.flash,r=n.radius+glow*0.6+flash*4;if(flash>0.01){const isStage1=flash>0.65,coreG=isStage1?248:200,coreB=isStage1?180:80;const bR=r*(isStage1?7:5.5),burst=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,bR);burst.addColorStop(0,`rgba(255,${coreG},${coreB},${flash*0.95})`);burst.addColorStop(0.25,`rgba(240,192,64,${flash*0.65})`);burst.addColorStop(0.6,`rgba(240,150,0,${flash*0.2})`);burst.addColorStop(1,`rgba(240,192,64,0)`);ctx.beginPath();ctx.arc(n.x,n.y,bR,0,Math.PI*2);ctx.fillStyle=burst;ctx.fill();if(isStage1){const ringR=r*9*(1-flash+0.4);ctx.beginPath();ctx.arc(n.x,n.y,ringR,0,Math.PI*2);ctx.strokeStyle=`rgba(255,220,80,${flash*0.3})`;ctx.lineWidth=1.2;ctx.stroke();}ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);ctx.fillStyle=`rgba(255,${coreG},${coreB},${0.8+flash*0.2})`;ctx.fill();}else{const oG=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*3);oG.addColorStop(0,`rgba(220,230,255,${0.12+glow*0.08})`);oG.addColorStop(1,`rgba(220,230,255,0)`);ctx.beginPath();ctx.arc(n.x,n.y,r*3,0,Math.PI*2);ctx.fillStyle=oG;ctx.fill();ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);ctx.fillStyle=`rgba(220,230,255,${0.45+glow*0.2})`;ctx.fill();}}requestAnimationFrame(draw);}
       function onResize(){resize();initNodes();}
       resize();initNodes();draw();
       window.addEventListener('resize',onResize);
@@ -731,83 +735,93 @@
     const bgmAudio = document.getElementById('bgm-audio');
     bgmAudio.volume = 0.08;
     let bgmPlaying = false;
-
     bgmAudio.addEventListener('error', function() {
       const ctrl = document.getElementById('bgm-control');
-      ctrl.style.opacity = '0.35';
-      ctrl.style.pointerEvents = 'none';
+      ctrl.style.opacity = '0.35'; ctrl.style.pointerEvents = 'none';
       ctrl.title = 'BGMファイルが設定されていません';
     });
-
     function toggleBgm() {
-      if (!bgmPlaying) {
-        bgmAudio.play().catch(() => {});
-        bgmPlaying = true;
-        document.getElementById('bgm-icon').textContent = 'volume_up';
-      } else {
-        bgmAudio.pause();
-        bgmPlaying = false;
-        document.getElementById('bgm-icon').textContent = 'volume_off';
-      }
+      if (!bgmPlaying) { bgmAudio.play().catch(()=>{}); bgmPlaying=true; document.getElementById('bgm-icon').textContent='volume_up'; }
+      else { bgmAudio.pause(); bgmPlaying=false; document.getElementById('bgm-icon').textContent='volume_off'; }
     }
     function setBgmVolume(val) { bgmAudio.volume = val / 100; }
     function toggleBgmSlider() {
-      const slider = document.getElementById('bgm-slider');
-      const btn    = document.getElementById('bgm-slider-toggle');
-      const isOpen = slider.classList.toggle('open');
-      btn.textContent = isOpen ? '▼' : '▲';
+      const slider=document.getElementById('bgm-slider'), btn=document.getElementById('bgm-slider-toggle');
+      const isOpen=slider.classList.toggle('open');
+      btn.textContent=isOpen?'▼':'▲';
     }
 
     /* ══════════════════════════════════════════
-       Chat / Voice Logic
+       マイク — SpeechRecognition非対応ブラウザでもクラッシュしない遅延初期化
     ══════════════════════════════════════════ */
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'ja-JP';
-    recognition.continuous = true;
-    recognition.interimResults = false;
-
-    let isRecording = false, conversationHistory = "", silenceTimer = null;
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition  = null;
+    let isRecording  = false;
+    let silenceTimer = null;
     const SILENCE_DELAY = 800;
 
+    function initMic() {
+      if (!SpeechRecognitionAPI) {
+        document.getElementById('mic-btn').classList.add('disabled-mic');
+        document.getElementById('mic-btn').title = 'このブラウザは音声入力に対応していません';
+        return;
+      }
+      try {
+        recognition = new SpeechRecognitionAPI();
+        recognition.lang = 'ja-JP';
+        recognition.continuous = true;
+        recognition.interimResults = false;
+        recognition.onstart = () => {
+          isRecording = true;
+          document.getElementById('mic-btn').classList.add('recording');
+          textInput.placeholder = "音声認識中…";
+        };
+        recognition.onend = () => {
+          isRecording = false;
+          document.getElementById('mic-btn').classList.remove('recording');
+          textInput.placeholder = "思考を入力… (送信は→ボタン または 音声「送信」)";
+          clearTimeout(silenceTimer);
+        };
+        recognition.onresult = (e) => {
+          let transcript = "";
+          for (let i = e.resultIndex; i < e.results.length; ++i)
+            if (e.results[i].isFinal) transcript += e.results[i][0].transcript;
+          if (!transcript) return;
+          clearTimeout(silenceTimer);
+          const keyword = transcript.trim().replace(/[。、！!？?\s…　]+$/, '');
+          if (keyword === '送信') { handleSend(); return; }
+          textInput.value += transcript;
+          autoResize(textInput);
+          silenceTimer = setTimeout(() => {
+            if (isRecording && textInput.value && !textInput.value.endsWith('\n')) {
+              textInput.value += '\n'; autoResize(textInput);
+            }
+          }, SILENCE_DELAY);
+        };
+        recognition.onerror = (e) => addBubble("⚠️ マイクエラー: " + e.error, 'system');
+      } catch(e) {
+        console.warn('SpeechRecognition init failed:', e);
+        recognition = null;
+      }
+    }
+
+    function toggleRecording() {
+      if (!recognition) { addBubble("⚠️ このブラウザは音声入力に対応していません", 'system'); return; }
+      isRecording ? recognition.stop() : recognition.start();
+    }
+
+    /* ══════════════════════════════════════════
+       Chat Logic
+    ══════════════════════════════════════════ */
+    let conversationHistory = "";
     const textInput = document.getElementById('text-input');
-    const micBtn    = document.getElementById('mic-btn');
     const chatArea  = document.getElementById('chat-area');
     const aiToggle  = document.getElementById('ai-toggle');
-
-    function toggleRecording() { isRecording ? recognition.stop() : recognition.start(); }
-
-    recognition.onstart = () => {
-      isRecording = true; micBtn.classList.add('recording');
-      textInput.placeholder = "音声認識中…";
-    };
-    recognition.onend = () => {
-      isRecording = false; micBtn.classList.remove('recording');
-      textInput.placeholder = "思考を入力… (送信は→ボタン または 音声「送信」)";
-      clearTimeout(silenceTimer);
-    };
-    recognition.onresult = (e) => {
-      let transcript = "";
-      for (let i = e.resultIndex; i < e.results.length; ++i)
-        if (e.results[i].isFinal) transcript += e.results[i][0].transcript;
-      if (!transcript) return;
-      clearTimeout(silenceTimer);
-      const keyword = transcript.trim().replace(/[。、！!？?\s…　]+$/, '');
-      if (keyword === '送信') { handleSend(); return; }
-      textInput.value += transcript;
-      autoResize(textInput);
-      silenceTimer = setTimeout(() => {
-        if (isRecording && textInput.value && !textInput.value.endsWith('\n')) {
-          textInput.value += '\n'; autoResize(textInput);
-        }
-      }, SILENCE_DELAY);
-    };
-    recognition.onerror = (e) => addBubble("⚠️ マイクエラー: " + e.error, 'system');
 
     function handleSend() {
       const text = textInput.value.trim();
       if (!text) return;
-      if (isRecording) recognition.stop();
+      if (isRecording && recognition) recognition.stop();
       clearTimeout(silenceTimer);
       addBubble(text, 'user');
       textInput.value = ""; textInput.style.height = 'auto';
@@ -817,11 +831,12 @@
 
     function requestAiReply(userText) {
       const loadingId = addLoading();
-      saveToGas("ai_chat", userText, conversationHistory, (data) => {
+      postToGas("ai_chat", userText, conversationHistory, (data) => {
         removeLoading(loadingId);
         const reply = (data && data.reply) ? data.reply : '（返答を受信できませんでした）';
         addBubble(reply, 'titan');
         conversationHistory += `[${aiName}]: ${reply}\n`;
+        speakText(reply);
       });
     }
 
@@ -830,7 +845,7 @@
       addBubble("アーカイブへ送信中…", 'system');
       const snapshot = conversationHistory;
       const uid = new URLSearchParams(window.location.search).get('uid');
-      saveToGas("save", snapshot, null, () => {
+      postToGas("save", snapshot, null, () => {
         addBubble("✅ Genesis Sheet に記録完了。", 'system');
         if (uid && NEXT_API_BASE_URL) {
           fetch(`${NEXT_API_BASE_URL}/api/genesis`, {
@@ -838,15 +853,8 @@
             body: JSON.stringify({ uid, content: snapshot, oracleEnabled: false }),
           })
           .then(r => r.json())
-          .then(() => {
-            addBubble("📡 genesis_log（Firestore）にも記録完了。セッションをリセットします。", 'system');
-            conversationHistory = "";
-          })
-          .catch(err => {
-            console.warn('[Genesis] Firestore sync error:', err);
-            addBubble("⚠️ Firestore 記録に失敗（Sheets のみ保存済）。セッションをリセットします。", 'system');
-            conversationHistory = "";
-          });
+          .then(() => { addBubble("📡 genesis_log（Firestore）にも記録完了。セッションをリセットします。", 'system'); conversationHistory = ""; })
+          .catch(err => { console.warn('[Genesis] Firestore sync error:', err); addBubble("⚠️ Firestore 記録に失敗（Sheets のみ保存済）。セッションをリセットします。", 'system'); conversationHistory = ""; });
         } else {
           addBubble("✅ 保存完了。セッションをリセットします。", 'system');
           conversationHistory = "";
@@ -854,11 +862,12 @@
       });
     }
 
-    function saveToGas(type, text, history = null, callback = null) {
-      if (!WEB_APP_URL.includes("/macros/s/")) {
-        alert("⚠️ WEB_APP_URLが正しく設定されていません"); return;
+    function postToGas(type, text, history, callback) {
+      if (!webAppUrl || !webAppUrl.includes("/macros/s/")) {
+        addBubble("⚠️ GASウェブアプリURLが設定されていません。⚙️パートナー設定から設定してください", 'system');
+        return;
       }
-      fetch(WEB_APP_URL, {
+      fetch(webAppUrl, {
         method: "POST", redirect: "follow",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({ type, fullText: text, history, userName, aiName }),
@@ -882,12 +891,49 @@
       document.getElementById('mode-label').innerText = aiToggle.checked ? "AI対話" : "記録";
     }
 
-    /* ── 設定モーダル ── */
+    /* ══════════════════════════════════════════
+       初回セットアップ
+    ══════════════════════════════════════════ */
+    function checkInitialSetup() {
+      if (!webAppUrl || !webAppUrl.includes('/macros/s/')) {
+        document.getElementById('setup-overlay').classList.add('open');
+      }
+    }
+
+    function saveInitialSetup() {
+      const url = document.getElementById('setup-gas-url').value.trim();
+      if (!url.includes('/macros/s/')) {
+        alert('⚠️ 正しいGASウェブアプリURL（/exec で終わるURL）を入力してください'); return;
+      }
+      const btn = document.getElementById('setup-save-btn');
+      btn.disabled = true; btn.textContent = '接続中...';
+      webAppUrl = url;
+      saveToStorage({ webAppUrl: url });
+      btn.textContent = '接続完了！';
+      setTimeout(function() {
+        document.getElementById('setup-overlay').classList.remove('open');
+      }, 600);
+    }
+
+    /* ══════════════════════════════════════════
+       設定モーダル
+    ══════════════════════════════════════════ */
     function openSettings() {
       document.getElementById('settings-user-name').value = userName;
       document.getElementById('settings-ai-name').value   = aiName;
-      const btn = document.getElementById('settings-save-btn');
+      const display = document.getElementById('settings-url-display');
+      display.textContent = webAppUrl || '未設定';
+      display.title = webAppUrl || '';
+      document.getElementById('settings-gas-url-input').value = webAppUrl || '';
+      document.getElementById('settings-url-edit').classList.remove('open');
+const btn = document.getElementById('settings-save-btn');
       btn.disabled = false; btn.textContent = '保存する';
+      // TTS設定をフォームに反映
+      document.getElementById('settings-tts-voice').value = ttsVoice;
+      const rEl = document.getElementById('settings-tts-rate');
+      const pEl = document.getElementById('settings-tts-pitch');
+      if (rEl) { rEl.value = ttsRate; document.getElementById('rate-val').textContent = parseFloat(ttsRate).toFixed(2); }
+      if (pEl) { pEl.value = ttsPitch; document.getElementById('pitch-val').textContent = parseFloat(ttsPitch).toFixed(1); }
       document.getElementById('settings-overlay').classList.add('open');
     }
     function closeSettings() {
@@ -896,27 +942,40 @@
     function handleOverlayClick(e) {
       if (e.target === document.getElementById('settings-overlay')) closeSettings();
     }
+    function toggleUrlEdit() {
+      document.getElementById('settings-url-edit').classList.toggle('open');
+    }
+    function copyGasUrl() {
+      if (!webAppUrl) { alert('URLが設定されていません'); return; }
+      navigator.clipboard.writeText(webAppUrl).then(function() {
+        const btn = document.querySelector('.settings-url-copy-btn');
+        const icon = btn.querySelector('.material-icons');
+        icon.textContent = 'check'; btn.style.color = '#4caf50';
+        setTimeout(function() { icon.textContent = 'content_copy'; btn.style.color = ''; }, 1500);
+      }).catch(function() { prompt('URLをコピーしてください:', webAppUrl); });
+    }
     function saveSettings() {
-      const newUserName = document.getElementById('settings-user-name').value.trim();
-      const newAiName   = document.getElementById('settings-ai-name').value.trim();
+      const newUserName  = document.getElementById('settings-user-name').value.trim();
+      const newAiName    = document.getElementById('settings-ai-name').value.trim();
       if (!newUserName || !newAiName) { alert('両方の名前を入力してください'); return; }
+      const newTtsVoice  = document.getElementById('settings-tts-voice').value;
+      const newTtsRate   = parseFloat(document.getElementById('settings-tts-rate').value);
+      const newTtsPitch  = parseFloat(document.getElementById('settings-tts-pitch').value);
+      ttsVoice = newTtsVoice; ttsRate = newTtsRate; ttsPitch = newTtsPitch;
+      const urlInput   = document.getElementById('settings-gas-url-input').value.trim();
+      const urlEditOpen = document.getElementById('settings-url-edit').classList.contains('open');
+      if (urlEditOpen && urlInput && !urlInput.includes('/macros/s/')) {
+        alert('⚠️ 正しいGASウェブアプリURL（/exec で終わるURL）を入力してください'); return;
+      }
       const btn = document.getElementById('settings-save-btn');
       btn.disabled = true; btn.textContent = '保存中...';
-      if (typeof google !== 'undefined' && google.script) {
-        google.script.run
-          .withSuccessHandler(function() {
-            userName = newUserName; aiName = newAiName;
-            btn.textContent = '保存完了！'; setTimeout(closeSettings, 700);
-          })
-          .withFailureHandler(function(err) {
-            alert('エラー: ' + err.message);
-            btn.disabled = false; btn.textContent = '保存する';
-          })
-          .saveUserSettings(newUserName, newAiName);
-      } else {
-        userName = newUserName; aiName = newAiName;
-        btn.textContent = '保存完了！'; setTimeout(closeSettings, 700);
-      }
+      if (urlEditOpen && urlInput) { webAppUrl = urlInput; }
+      userName = newUserName; aiName = newAiName;
+      // 生年月日・性別を取得・保存
+      saveToStorage({ webAppUrl, userName, aiName, ttsVoice, ttsRate, ttsPitch });
+
+      btn.textContent = '保存完了！';
+      setTimeout(closeSettings, 700);
     }
 
     /* ══════════════════════════════════════════
@@ -939,10 +998,10 @@
       const now=new Date(), y=now.getFullYear();
       const m=String(now.getMonth()+1).padStart(2,'0'), d=String(now.getDate()).padStart(2,'0');
       const configs = {
-        Daily:   { label: '対象の日付を選択してください',     inputType: 'date',   value: `${y}-${m}-${d}` },
+        Daily:   { label: '対象の日付を選択してください',      inputType: 'date',   value: `${y}-${m}-${d}` },
         Weekly:  { label: '起算日（最終日）を選択してください', inputType: 'date',   value: `${y}-${m}-${d}` },
-        Monthly: { label: '対象月を選択してください',         inputType: 'month',  value: `${y}-${m}` },
-        Yearly:  { label: '対象年を入力してください',         inputType: 'number', value: String(y) },
+        Monthly: { label: '対象月を選択してください',          inputType: 'month',  value: `${y}-${m}` },
+        Yearly:  { label: '対象年を入力してください',          inputType: 'number', value: String(y) },
       };
       const cfg = configs[type];
       document.getElementById('synth-modal-title').textContent   = `⚗️ ${type} まとめ`;
@@ -962,18 +1021,15 @@
       closeSynthesisModal();
       const targetStr = val.replace(/-/g, '/');
       addBubble(`⚗️ ${type}まとめを生成中… (${targetStr})`, 'system');
-      fetch(WEB_APP_URL, {
+      fetch(webAppUrl, {
         method: 'POST', redirect: 'follow',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ type: 'synthesis', synthesisType: type, targetStr }),
       })
       .then(r => r.json())
       .then(data => {
-        if (data.status === 'success') {
-          addBubble(`✅ ${type}まとめをスプレッドシートに記録しました。`, 'system');
-        } else {
-          addBubble(`⚠️ エラー: ${data.message || '不明なエラー'}`, 'system');
-        }
+        if (data.status === 'success') addBubble(`✅ ${type}まとめをスプレッドシートに記録しました。`, 'system');
+        else addBubble(`⚠️ エラー: ${data.message || '不明なエラー'}`, 'system');
       })
       .catch(err => addBubble(`⚠️ 通信エラー: ${err.message}`, 'system'));
     }
@@ -994,6 +1050,63 @@
     function removeLoading(id) { const el=document.getElementById(id); if(el)el.remove(); }
     function autoResize(el) { el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
     textInput.addEventListener('input', function() { autoResize(this); });
+
+    /* ── 初期化 ── */
+    initMic();
+    checkInitialSetup();
+  
+    /* ── TTS ── */
+    function toggleTts() {
+      ttsEnabled = !ttsEnabled;
+      const btn = document.getElementById('tts-btn');
+      const icon = document.getElementById('tts-icon');
+      if (ttsEnabled) {
+        icon.textContent = 'record_voice_over'; btn.classList.add('active');
+        addBubble('🔊 音声読み上げ ON', 'system');
+      } else {
+        icon.textContent = 'voice_over_off'; btn.classList.remove('active');
+        if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+        window.speechSynthesis && window.speechSynthesis.cancel();
+        addBubble('🔇 音声読み上げ OFF', 'system');
+      }
+    }
+
+    function speakText(text) {
+      if (!ttsEnabled) return;
+      if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+      window.speechSynthesis && window.speechSynthesis.cancel();
+      const plain = text.replace(/<[^>]*>/g, '').replace(/\n+/g, '。').substring(0, 4000);
+      if (!webAppUrl || !webAppUrl.includes('/macros/s/')) { fallbackSpeak(plain); return; }
+      fetch(webAppUrl, {
+        method: 'POST', redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ type: 'tts', text: plain, voice: ttsVoice, rate: ttsRate, pitch: ttsPitch })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.audioContent) {
+          currentAudio = new Audio('data:audio/mp3;base64,' + data.audioContent);
+          currentAudio.play().catch(() => fallbackSpeak(plain));
+          currentAudio.onended = () => { currentAudio = null; };
+        } else { fallbackSpeak(plain); }
+      })
+      .catch(() => fallbackSpeak(plain));
+    }
+
+    function fallbackSpeak(plain) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(plain);
+      utter.lang = 'ja-JP'; utter.rate = ttsRate; utter.pitch = 1.0;
+      const voices = window.speechSynthesis.getVoices();
+      const priority = ['Otoya', 'Google 日本語', 'Kyoko', 'Microsoft Haruka'];
+      let best = null;
+      for (const name of priority) { best = voices.find(v => v.name.includes(name)); if (best) break; }
+      if (!best) best = voices.find(v => v.lang && v.lang.startsWith('ja'));
+      if (best) utter.voice = best;
+      window.speechSynthesis.speak(utter);
+    }
+
   </script>
 </body>
 </html>
